@@ -1,0 +1,29 @@
+---
+
+- name: deploy | prerequisites
+  hosts: appservers
+  become: yes
+  become_user: throughmovies
+  vars:
+    site_dir: /home/throughmovies/www/throughmovies.com
+  tasks:
+    - name: create site folder (if needed)
+      file:
+        path: "{{ site_dir }}"
+        state: directory
+
+    - name: does source folder exist?
+      stat:
+        path: "{{ site_dir }}/source"
+      register: sourcelocation
+
+    - name: clone repo
+      git:
+        repo: "https://github.com/delameko/throughmovies.git"
+        dest: "{{ site_dir }}/source"
+
+    - name: symlink folder to current
+      file:
+        src: "{{ site_dir }}/source"
+        dest: "{{ site_dir }}/current"
+        state: link
