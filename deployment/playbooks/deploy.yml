@@ -3,9 +3,9 @@
 - name: deploy | prerequisites
   hosts: appservers
   become: yes
-  become_user: throughmovies
+  become_user: stubgun
   vars:
-    site_dir: /home/throughmovies/www/throughmovies.com
+    site_dir: /home/stubgun/www/throughmovies.com
   tasks:
     - name: create site folder (if needed)
       file:
